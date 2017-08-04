@@ -15,6 +15,12 @@ class BooksApp extends React.Component {
     })
   }
 
+  updateBook(book, shelf) {
+    BooksAPI.update(book, shelf).then((data) => {
+      window.location.reload()
+    })
+  }
+
   render() {
     return (
       <div className="app">
@@ -44,6 +50,7 @@ class BooksApp extends React.Component {
         <Route exact path='/' render={() => (
           <ListBooks
             books={this.state.books}
+            onUpdateBook={this.updateBook}
           />
         )}/>
       </div>
