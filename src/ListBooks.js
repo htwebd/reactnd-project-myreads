@@ -2,12 +2,15 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
 class ListBooks extends Component {
-  state = {
+  constructor(props) {
+    super(props)
+    this.state = {
       shelves: [
         "Currently Reading",
         "Want to Read",
         "Read"
       ]
+    }
   }
 
   formatQueryString = (str) => {

@@ -6,19 +6,39 @@ import * as BooksAPI from './BooksAPI'
 import './App.css'
 
 class BooksApp extends React.Component {
-  state = {
-    books: []
+  constructor(props) {
+    super(props)
+    this.state = {
+      books: [],
+      searchResult: []
+    }
+    this.searchBooks = this.searchBooks.bind(this)
+    this.updateBook = this.updateBook.bind(this)
   }
 
   componentDidMount() {
+    this.getAllBooks()
+  }
+
+  getAllBooks() {
     BooksAPI.getAll().then((books) => {
       this.setState({ books })
     })
   }
 
+  searchBooks(query) {
+    query && BooksAPI.search(query).then((searchResult) => {
+      if(searchResult.length > 0){
+        this.setState({ searchResult })
+      } else {
+        this.setState({ serachResult: [] })
+      }
+    })
+  }
+
   updateBook(book, shelf) {
     BooksAPI.update(book, shelf).then((data) => {
-      window.location.reload()
+      this.getAllBooks();
     })
   }
 
@@ -33,7 +53,9 @@ class BooksApp extends React.Component {
         )}/>
         <Route path='/search' render={() => (
           <SearchBooks 
-            books={this.state.books}
+            searchResult={this.state.searchResult}
+            onSearchBooks={this.searchBooks}
+            onUpdateBook={this.updateBook}
           />
         )}/>
       </div>
