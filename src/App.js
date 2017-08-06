@@ -1,7 +1,8 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
-import ListBooks from './ListBooks.js'
-import SearchBooks from './SearchBooks.js'
+import keyIndex from 'react-key-index'
+import ListBooks from './views/ListBooks.js'
+import SearchBooks from './views/SearchBooks.js'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 
@@ -43,11 +44,13 @@ class BooksApp extends React.Component {
   }
 
   render() {
+    const books = keyIndex(this.state.books, 1)
+
     return (
       <div className="app">
         <Route exact path='/' render={() => (
           <ListBooks
-            books={this.state.books}
+            books={books}
             onUpdateBook={this.updateBook}
           />
         )}/>
